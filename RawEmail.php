@@ -1,8 +1,8 @@
 <?php
 
-namespace lracicot\PhpImapReader;
+namespace lracicot\ImapReader;
 
-use lracicot\PhpImapReader\EmailDecoder;
+use lracicot\ImapReader\EmailDecoder;
 
 class RawEmail
 {

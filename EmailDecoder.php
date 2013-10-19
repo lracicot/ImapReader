@@ -1,6 +1,6 @@
 <?php
 
-namespace lracicot\PhpImapReader;
+namespace lracicot\ImapReader;
 
 class EmailDecoder
 {

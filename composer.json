@@ -5,6 +5,9 @@
     "homepage": "http://github.com/lracicot/ImapReader",
     "type": "library",
     "license": "MIT",
+    "autoload": {
+        "psr-0": {"lracicot\\ImapReader\\": "/"}
+    },
     "authors": [
         {
             "name": "Louis Racicot",
