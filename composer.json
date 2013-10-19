@@ -6,7 +6,7 @@
     "type": "library",
     "license": "MIT",
     "autoload": {
-        "psr-0": {"lracicot\\ImapReader\\": "/"}
+        "psr-0": {"lracicot\\ImapReader\\": "/src"}
     },
     "authors": [
         {
