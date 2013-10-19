@@ -1,5 +1,5 @@
 {
-    "name": "lracicot/imapreader",
+    "name": "lracicot/imap-reader",
     "description": "Library designed to help reading email from Imap server",
     "keywords": ["imap", "email"],
     "homepage": "http://github.com/lracicot/ImapReader",
