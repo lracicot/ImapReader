@@ -2,55 +2,115 @@
 
 namespace lracicot\PhpImapReader;
 
-use lracicot\PhpImapReader\EmailDecoder;
-
 class Email
 {
-	protected $contents = '';
+	protected $from = '';
+	protected $to = '';
+	protected $date = '';
+	protected $body = '';
 
-	public function __construct($contents)
+	public function __construct($from, $to, $date, $body)
 	{
-		$this->contents = $contents;
+		$this->from = $from;
+		$this->to = $to;
+		$this->setDate($date);
+		$this->body = $body;
 	}
 
+	/**
+	 * Getter for from
+	 *
+	 * @return mixed
+	 */
 	public function getFrom()
 	{
-		$pattern = '/From:(.*) <?(\b[ A-Za-z0-9\._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}\b)>?/';
-		preg_match($pattern, $this->contents, $matches);
-
-		return array_pop($matches);
+	    return $this->from;
 	}
-
+	
+	/**
+	 * Setter for from
+	 *
+	 * @param mixed $from Value to set
+	 *
+	 * @return self
+	 */
+	public function setFrom($from)
+	{
+	    $this->from = $from;
+	    return $this;
+	}
+	
+	/**
+	 * Getter for to
+	 *
+	 * @return mixed
+	 */
 	public function getTo()
 	{
-		$pattern = '/To:(.*) <?(\b[ A-Za-z0-9\._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}\b)>?/';
-		preg_match($pattern, $this->contents, $matches);
-
-		return array_pop($matches);
+	    return $this->to;
+	}
+	
+	/**
+	 * Setter for to
+	 *
+	 * @param mixed $to Value to set
+	 *
+	 * @return self
+	 */
+	public function setTo($to)
+	{
+	    $this->to = $to;
+	    return $this;
 	}
 
+	/**
+	 * Getter for date
+	 *
+	 * @return mixed
+	 */
 	public function getDate()
 	{
-		$pattern = '/Date: (.*)/';
-		preg_match($pattern, $this->contents, $matches);
+	    return $this->date;
+	}
+	
+	/**
+	 * Setter for date
+	 *
+	 * @param mixed $date Value to set
+	 *
+	 * @return self
+	 */
+	public function setDate($date)
+	{
+		if (!is_object($date)) {
+			$date = new \DateTime($date);
+		}
 
-		$timeStr = array_pop($matches);
-
-		return new \DateTime('@'.strtotime($timeStr));
+	    $this->date = $date;
+	    return $this;
 	}
 
+	/**
+	 * Getter for body
+	 *
+	 * @return mixed
+	 */
 	public function getBody()
 	{
-		$pattern = '/\r?\n\r?\n(.*)/s';
-		preg_match($pattern, $this->contents, $matches);
-
-		$message = array_pop($matches);
-
-		return  EmailDecoder::decodeStr($message);
+	    return $this->body;
 	}
-
-	public function isValid()
+	
+	/**
+	 * Setter for body
+	 *
+	 * @param mixed $body Value to set
+	 *
+	 * @return self
+	 */
+	public function setBody($body)
 	{
-		return $this->contents != '';
+	    $this->body = $body;
+	    return $this;
 	}
+
 }

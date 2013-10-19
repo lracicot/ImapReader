@@ -9,6 +9,7 @@ class ImapFileReader implements Iterator
 	// File handle
 	protected $fh = null;
 
+	protected $currentEmailFile = null;
 	protected $currentEmail = null;
 	protected $position = 0;
 	private $buffer = '';
@@ -31,7 +32,7 @@ class ImapFileReader implements Iterator
 
 	public function key()
 	{
-		$this->position;
+		return $this->position;
 	}
 
 	public function next()
@@ -43,11 +44,23 @@ class ImapFileReader implements Iterator
 		   $this->buffer .= $line;
 		}
 		while ( 
-				(($line = fgets($this->fh)) && substr($line, 0, 7) != 'From - ')
-			);
+			(($line = fgets($this->fh)) && substr($line, 0, 7) != 'From - ')
+		);
 
 		$this->position++;
-		$this->currentEmail = new Email($this->buffer);
+
+		$this->currentEmailFile = new RawEmail($this->buffer);
+		$this->currentEmail = null;
+
+		if ($this->valid()) {
+			$this->currentEmail = new Email(
+				$this->currentEmailFile->getFrom(),
+				$this->currentEmailFile->getTo(),
+				$this->currentEmailFile->getDate(),
+				$this->currentEmailFile->getBody()
+			);
+		}
+
 		$this->buffer = $line;
 	}
 
@@ -58,6 +71,6 @@ class ImapFileReader implements Iterator
 
 	public function valid()
 	{
-		return $this->current()->isValid();
+		return $this->currentEmailFile->isValid();
 	}
 }
